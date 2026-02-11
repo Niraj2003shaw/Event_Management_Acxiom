@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maintenance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+    {% if message %}
+    <p style="color: green; font-weight: bold;">
+        {{ message }}
+    </p>
+{% endif %}
+
+
+<h2>Maintenance (Admin Only)</h2>
+
+<!-- ================== ADD EVENT ================== -->
+
+<h3>Add Event</h3>
+
+<form method="POST">
+    <input type="hidden" name="form_type" value="event">
+
+    Event Name:
+    <input type="text" name="name" required><br><br>
+
+    Date:
+    <input type="date" name="date" required><br><br>
+
+    Location:
+    <input type="text" name="location" required><br><br>
+
+    <button type="submit">Add Event</button>
+</form>
+
+<hr>
+
+<h3>All Events</h3>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Date</th>
+    <th>Location</th>
+</tr>
+
+{% for event in events %}
+<tr>
+    <td>{{ event[0] }}</td>
+    <td>{{ event[1] }}</td>
+    <td>{{ event[2] }}</td>
+    <td>{{ event[3] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<!-- ================== ADD MEMBERSHIP ================== -->
+
+<h3>Add Membership</h3>
+
+<form method="POST">
+    <input type="hidden" name="form_type" value="membership">
+
+    Member Name:
+    <input type="text" name="member_name" required><br><br>
+
+    Membership Duration:<br>
+
+    <input type="radio" name="membership_type" value="6 Months" checked> 6 Months<br>
+    <input type="radio" name="membership_type" value="1 Year"> 1 Year<br>
+    <input type="radio" name="membership_type" value="2 Years"> 2 Years<br><br>
+
+    <button type="submit">Add Membership</button>
+</form>
+
+<hr>
+
+<h3>All Memberships</h3>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Duration</th>
+    <th>Status</th>
+</tr>
+
+{% for m in members %}
+<tr>
+    <td>{{ m[0] }}</td>
+    <td>{{ m[1] }}</td>
+    <td>{{ m[2] }}</td>
+    <td>{{ m[3] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<h3>Update Membership</h3>
+
+<form method="POST">
+    <input type="hidden" name="form_type" value="update_membership">
+
+    Membership ID:
+    <input type="number" name="member_id" required><br><br>
+
+    Action:<br>
+    <input type="radio" name="action" value="extend" checked> Extend (6 Months)<br>
+    <input type="radio" name="action" value="cancel"> Cancel<br><br>
+
+    <button type="submit">Update</button>
+</form>
+
+<hr>
+
+<h3>Delete Membership</h3>
+
+<form method="POST">
+    <input type="hidden" name="form_type" value="delete_membership">
+
+    Membership ID:
+    <input type="number" name="member_id" required>
+
+    <br><br>
+
+    <button type="submit"
+         onclick="return confirm('Are you sure you want to delete this membership?');">
+        Delete Membership
+    </button>
+</form>
+
+
+
+<br>
+<a href="/dashboard">Back to Dashboard</a>
+
+</body>
+</html>
