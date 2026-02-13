@@ -62,6 +62,35 @@ def init_db():
 
 # ---------------- ROUTES ----------------
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    message = ""
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        role = request.form['role']
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+
+        # Check if user already exists
+        c.execute("SELECT * FROM users WHERE username=?", (username,))
+        existing_user = c.fetchone()
+
+        if existing_user:
+            message = "Username already exists!"
+        else:
+            c.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)",(username, password, role))
+            conn.commit()
+            message = "Registration Successful!"
+
+        conn.close()
+
+    return render_template('register.html', message=message)
+
+
+
 @app.route('/')
 def home():
     return render_template("login.html")
